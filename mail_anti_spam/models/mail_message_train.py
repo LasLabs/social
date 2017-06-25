@@ -46,6 +46,8 @@ class MailMessageProcess(models.Model):
     _name = 'mail.message.process'
     _description = 'Mail Message Processing'
 
+    SAMPLE_SIZE = 500
+
     message_id = fields.Many2one(
         string='Message',
         comodel_name='mail.message',
@@ -62,12 +64,6 @@ class MailMessageProcess(models.Model):
     score = fields.Float()
 
     @api.multi
-    @api.property
-    def bow_transformer(self):
-        self.ensure_one()
-        return CountVectorizer(analyzer=self.create_lemmas).fit(self.clean_body)
-
-    @api.multi
     @api.depends('message_id.body')
     def _compute_clean_body(self):
         """ It preproceses a message and stores the result """
@@ -80,8 +76,8 @@ class MailMessageProcess(models.Model):
     def _compute_is_spam(self):
         """ It determines whether the message is spam """
         for rec_id in self:
-            
-
+           pass
+ 
     @api.multi
     def create_lemmas(self):
         """ It returns normalized words in their base form & PoS tag
@@ -92,3 +88,8 @@ class MailMessageProcess(models.Model):
         self.ensure_one()
         message = unicode(self.clean_body, 'utf8').lower()
         return [word.lemma for word in TextBlob(message).words]
+
+    @api.multi
+    def bow_transformer(self):
+        self.ensure_one()
+        return CountVectorizer(analyzer=self.create_lemmas).fit(self.clean_body)

@@ -1,0 +1,6 @@
+numpy
+scipy
+six
+textblob
+# Ubuntu/Linux 64-bit, CPU only, Python 2.7
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc2-cp27-none-linux_x86_64.whl
